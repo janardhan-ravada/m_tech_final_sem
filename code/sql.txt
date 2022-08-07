@@ -1,0 +1,78 @@
+CREATE TABLE `hibernate_sequence` (
+  `next_val` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+CREATE TABLE `user` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `email_verified` bit(1) NOT NULL DEFAULT b'0',
+  `avatar_url` varchar(255) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `user_type` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK6dotkott2kjsp8vw4d0m25fb7` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `customer` (
+  `id` bigint NOT NULL,
+  `name` varchar(256) DEFAULT NULL,
+  `gender` varchar(45) DEFAULT NULL,
+  `date_of_birth` datetime DEFAULT NULL,
+  `user_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fb_consumer_user_idx` (`user_id`),
+  CONSTRAINT `fb_customer_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `producer` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `enterprise_name` varchar(45) DEFAULT NULL,
+  `gender` varchar(45) DEFAULT NULL,
+  `date_of_birth` datetime DEFAULT NULL,
+  `user_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_producer_user` (`user_id`),
+  CONSTRAINT `fk_producer_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `product_type` (
+  `id` bigint NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+CREATE TABLE `product` (
+  `id` bigint NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  `unit` varchar(45) DEFAULT NULL,
+  `measurement` varchar(45) DEFAULT NULL,
+  `unit_quantity` bigint DEFAULT NULL,
+  `unit_price` bigint DEFAULT NULL,
+  `product_type_id` bigint DEFAULT NULL,
+  `producer_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_product_type_idx` (`product_type_id`),
+  KEY `fk_producer_idx` (`producer_id`),
+  CONSTRAINT `fk_producer` FOREIGN KEY (`producer_id`) REFERENCES `producer` (`id`),
+  CONSTRAINT `fk_product_type` FOREIGN KEY (`product_type_id`) REFERENCES `product_type` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+CREATE TABLE `product_avatar` (
+  `id` int NOT NULL,
+  `product_id` bigint DEFAULT NULL,
+  `icon_url` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_product_id_idx` (`product_id`),
+  CONSTRAINT `fk_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
