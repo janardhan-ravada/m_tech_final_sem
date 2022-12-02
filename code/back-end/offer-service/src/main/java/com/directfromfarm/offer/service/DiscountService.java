@@ -35,7 +35,7 @@ public class DiscountService {
         productDiscountResource.setProductVariantId(productVariantId);
 
         Set<DiscountResource> discounts = new HashSet<>();
-        ProductVariantResource variant = restTemplate.getForObject("http://localhost:8081/api/v1/product?product_variant=" + productVariantId, ProductVariantResource.class);
+        ProductVariantResource variant = restTemplate.getForObject("http://localhost:9191/api/v1/product?product_variant=" + productVariantId, ProductVariantResource.class);
         productDiscountResource.setUnitPrice(variant.getUnitPrice());
         AtomicReference<Double> unitPriceWithDiscount = new AtomicReference<>(variant.getUnitPrice());
         productDiscounts.forEach(productDiscount -> {

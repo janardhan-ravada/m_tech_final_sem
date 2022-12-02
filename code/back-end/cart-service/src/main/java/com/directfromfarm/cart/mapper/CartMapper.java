@@ -37,7 +37,7 @@ public class CartMapper {
         cartResource.setProductVariantId(cart.getProductVariantId());
         cartResource.setQuantity(cart.getQuantity());
 
-        ProductDiscountResource discountResource = restTemplate.getForObject("http://localhost:8082/api/v1/discount?product=" + cart.getProductId() + "&product_variant=" + cart.getProductVariantId(), ProductDiscountResource.class);
+        ProductDiscountResource discountResource = restTemplate.getForObject("http://offer-service:9191/api/v1/discount?product=" + cart.getProductId() + "&product_variant=" + cart.getProductVariantId(), ProductDiscountResource.class);
 
         cartResource.setUnitPrice(discountResource.getUnitPrice());
         cartResource.setUnitPriceWithDiscount(discountResource.getUnitPriceWithDiscount());
